@@ -86,8 +86,8 @@ export default {
       },
       grid: { height: '80%', top: '10%' },
       visualMap: {
-      min: 20,
-      max: 200,
+      min: 0,
+      max: 1,
       calculable: true,
       realtime: false,
       },
@@ -109,7 +109,7 @@ export default {
     redrawGraph(oid){
       axios({
       method: "get",
-      url: `/heatmap/${this.$store.state.dataset}/train`,
+      url: `/heatmap2/${this.$store.state.dataset}/train`,
       baseURL: this.$store.state.helper.apiAddr,
       params: {filter_id: oid? oid:null}
       }).then( res => res.data)

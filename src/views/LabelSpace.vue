@@ -134,8 +134,11 @@
           </v-row>
         </v-card-title>
         <v-card-text>
-          包含的点数、包含的标签种类、包含的标签个数、训练 Binary Classifier、计算 Mutual Information <br>
-          {{ subChartDialog.filterId }}
+          包含的点数:、包含的标签种类、包含的标签个数、训练 Binary Classifier、计算 Mutual Information <br>
+          Label: <br>
+          {{ subChartDialog.mutualScoreLabel }} <br>
+          Feature: <br>
+          {{ subChartDialog.mutualScoreFeature }} <br>
         </v-card-text>
         <v-card-actions>
         </v-card-actions>
@@ -250,7 +253,7 @@ export default {
       spaceTabs: [
         { tab: "Feature Space", icon: "mdi-pound", tsne_type: "features"},
         { tab: "Label Space", icon: "mdi-tag", tsne_type: "labels"},
-        { tab: "Label Combinations", icon: "mdi-format-list-group", tsne_type: "labels_combination"}
+        /*{ tab: "Label Combinations", icon: "mdi-format-list-group", tsne_type: "labels_combination"}*/
       ],
       quickFilter: [],
       snackbar: {
@@ -259,7 +262,9 @@ export default {
       },
       subChartDialog: {
         toggle: false,
-        filterId: ""
+        filterId: "",
+        mutualScoreLabel: "",
+        mutualScoreFeature: ""
       }
     }
   },
@@ -397,6 +402,7 @@ export default {
     filterOnClick(item_id) {
       this.subChartDialog.toggle = true;
       this.subChartDialog.filterId = item_id;
+      this.subChartFilterId(item_id);
     },
     notShowZeroLabelPointOnChange() {
       this.redrawGraph();
@@ -406,6 +412,24 @@ export default {
     },
     getSymbolSize(val, params) {
       return this.displayPreference.symbolSizeByLabelCount? 10 + 2 * this.labelCount[val[2]]:10;
+    },
+    subChartFilterId(item_id) {
+      axios.get(`${this.$store.state.helper.apiAddr}/group/mutual_information`,
+      {params: {dataset_name: this.$store.state.dataset,
+      dataset_type: "train", group_id: item_id, space: "labels"}})
+      .then( res => res.data)
+      .then(x => {
+        this.subChartDialog.mutualScoreLabel = x.result
+      })
+
+      axios.get(`${this.$store.state.helper.apiAddr}/group/mutual_information`,
+      {params: {dataset_name: this.$store.state.dataset,
+      dataset_type: "train", group_id: item_id, space: "features"}})
+      .then( res => res.data)
+      .then(x => {
+        this.subChartDialog.mutualScoreFeature = x.result
+      })
+ 
     }
   },
   computed: {

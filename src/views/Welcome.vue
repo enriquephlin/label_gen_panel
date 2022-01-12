@@ -52,7 +52,8 @@ import axios from 'axios'
 export default {
   name: 'Welcome',
   data: () => ({
-    defaultDataset: [],
+    defaultDataset: [{dataset_name: "bibtex"},
+    {dataset_name: "emotions"}],
     builtInListSelect: null,
     isLoading: {
       builtIn: false,
