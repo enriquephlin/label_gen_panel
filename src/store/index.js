@@ -7,7 +7,6 @@ Vue.use(Vuex)
 const apiIP="127.0.0.1";
 const apiAddr=`http://${apiIP}:5001`;
 
-
 export default new Vuex.Store({
   state: {
     helper: {

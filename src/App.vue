@@ -29,7 +29,7 @@ export default {
       { title: 'Import Data', icon: 'mdi-view-dashboard', link: "/" },
       { title: 'Visualization', icon: 'mdi-image', link: "/labelspace" },
       { title: 'Heatmap', icon: 'mdi-chart-bar', link: "/groupview" },
-      { title: 'Training', icon: 'mdi-image', link: "/train" }
+      { title: 'Training', icon: 'mdi-train', link: "/train" }
     ]
   }),
 };

@@ -70,6 +70,8 @@ export default {
     filterFile: null // JS File Object
   }),
   mounted() {
+    const dummy_dataset_list = ["tmc2007_500", "genbase", "Corel5k", "rcv1subset2", "bibtex", "emotions", "delicious"].sort()
+    dummy_dataset_list.forEach( x => this.defaultDataset.push({dataset_name: x}) )
     axios.get(this.$store.state.helper.apiAddr+"/available/list")
     .then(res => res.data)
     .then(x => this.defaultDataset = x)
