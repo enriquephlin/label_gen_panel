@@ -134,7 +134,7 @@
           </v-row>
         </v-card-title>
         <v-card-text>
-          包含的点数:、包含的标签种类、包含的标签个数、训练 Binary Classifier、计算 Mutual Information <br>
+          包含的点数:、包含的标签种类、包含的标签个数、训练 Binary Classifier <br>
           Label: <br>
           {{ subChartDialog.mutualScoreLabel }} <br>
           Feature: <br>
@@ -228,8 +228,14 @@ export default {
         tooltip: {
           trigger: "item",
           position: "top",
-          formatter: (params) => {
-            return params.data[2];
+          formatter: (params, ticket, callback) => {
+            axios({method: "get",
+            url: `/feature/get_point/${this.$store.state.dataset}/train`,
+            baseURL: this.$store.state.helper.apiAddr,
+            params: {point_id: params.data[2] }
+            }).then(res => {
+              let context = res.data
+              callback(ticket, context)})
           }},
         brush: { 
           toolbox: ['rect', 'polygon', 'keep', 'clear'],
